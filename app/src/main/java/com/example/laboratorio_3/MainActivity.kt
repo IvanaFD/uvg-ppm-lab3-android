@@ -18,30 +18,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Laboratorio_3Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            AppPreview()
+
         }
     }
 }
-
+//estructura con todos los elementos de la app
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun AppElements(){
+
+
 }
 
+//Preview de los elementos
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    Laboratorio_3Theme {
-        Greeting("Android")
-    }
+fun AppPreview() {
+
 }

@@ -38,7 +38,7 @@ fun AppElements(){
     // Alcance de corrutinas para lanzar el Snackbar
     val coroutineScope = rememberCoroutineScope()
 
-    // Scaffold envuelve todo y permite manejar el snackbarHostState
+    //Scaffold envuelve todo y permite manejar el snackbarHostState
     Scaffold(scaffoldState = scaffoldState) { paddingValues ->
         Column(
             modifier = Modifier
@@ -63,7 +63,7 @@ fun AppElements(){
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Lista de tareas usando LazyColumn
+            // List de tareas usando LazyColumn
             LazyColumn {
                 items(taskList) { task ->
                     Text(

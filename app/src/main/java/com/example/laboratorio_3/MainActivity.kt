@@ -1,10 +1,12 @@
 package com.example.laboratorio_3
 
-import ads_mobile_sdk.h4
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,8 +25,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -34,8 +34,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.laboratorio_3.ui.theme.Laboratorio_3Theme
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
 }
 //estructura con todos los elementos de la app
 @Composable
-fun AppElements(modifier: Modifier = Modifier){
+fun AppElements(modifier: Modifier = Modifier) {
     val mensajeError = stringResource(id = R.string.empty_task_error)
     val taskList = remember { mutableStateListOf<String>() }
     var newTaskText by remember { mutableStateOf("") }
@@ -68,90 +69,104 @@ fun AppElements(modifier: Modifier = Modifier){
     Scaffold(
         modifier = modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackbarHostState) } // Aquí se mostrarán los Snackbars
-    )  { paddingValues ->
+    ) { paddingValues ->
 
 
-        Column(
+        Box(
             modifier = Modifier
-                .padding(paddingValues)
-                .padding(16.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
         ) {
-            // Título visible en la parte superior
-            Text(
-                text = stringResource(id = R.string.app_title),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(bottom = 16.dp)
+            // Imagen de fondo
+            Image(
+                painter = painterResource(id = R.drawable.descarga__13_),
+                contentDescription = stringResource(id = R.string.background_image_description), // Agrega una descripción para accesibilidad
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
 
-            // Campo para ingresar nueva tarea
-            OutlinedTextField(
-                value = newTaskText,
-                onValueChange = { newTaskText = it },
-                label = { Text(stringResource(id = R.string.new_task_label)) },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            //Boton
-
-            Button(
-                onClick = {
-                    if (newTaskText.isNotBlank()) {
-                        taskList.add(0, newTaskText)
-                        newTaskText = ""
-                    } else {
-                        coroutineScope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = mensajeError,duration = SnackbarDuration.Short
-                            )
-                        }
-                    }
-                },
-                modifier = Modifier.align(Alignment.End)
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                Text(stringResource(id = R.string.add_task_button)) // AQUÍ
-            }
-
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // List de tareas usando LazyColumn
-            if (taskList.isEmpty()) {
+                // Título visible en la parte superior
                 Text(
-                    text = "No hay tareas pendientes.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 16.dp)
+                    text = stringResource(id = R.string.app_title),
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxWidth()
+
+                // Campo para ingresar nueva tarea
+                OutlinedTextField(
+                    value = newTaskText,
+                    onValueChange = { newTaskText = it },
+                    label = { Text(stringResource(id = R.string.new_task_label)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                //Boton
+
+                Button(
+                    onClick = {
+                        if (newTaskText.isNotBlank()) {
+                            taskList.add(0, newTaskText)
+                            newTaskText = ""
+                        } else {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = mensajeError, duration = SnackbarDuration.Short
+                                )
+                            }
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.End)
                 ) {
-                    items(taskList) { task ->
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                        ) {
-                            Text(
-                                text = task,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(16.dp)
-                            )
+
+                    Text(stringResource(id = R.string.add_task_button)) // AQUÍ
+                }
+
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // List de tareas usando LazyColumn
+                if (taskList.isEmpty()) {
+                    Text(
+                        text = "No hay tareas pendientes.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        items(taskList) { task ->
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                            ) {
+                                Text(
+                                    text = task,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                            }
                         }
                     }
                 }
+
+
             }
         }
     }
+
 }
-
-
 //Preview de los elementos
 @Preview(showBackground = true)
 @Composable

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Laboratorio_3</string>
     <string name="app_title">Lista de Tareas</string>
-    <string name="background_image_description">Fondo abstracto de montañas nevadas</string>
+    <string name="background_image_description">Fondo</string>
     <string name="new_task_label">Nueva tarea</string>
     <string name="add_task_button">Agregar</string>
     <string name="empty_task_error">Por favor ingresa una tarea</string>
